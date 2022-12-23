@@ -1,0 +1,55 @@
+ffmpeg version 2021-10-11-git-90a0da9f14-essentials_build-www.gyan.dev Copyright (c) 2000-2021 the FFmpeg developers
+  built with gcc 10.3.0 (Rev5, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libmfx --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      57.  7.100 / 57.  7.100
+  libavcodec     59. 12.100 / 59. 12.100
+  libavformat    59.  6.100 / 59.  6.100
+  libavdevice    59.  0.101 / 59.  0.101
+  libavfilter     8. 12.100 /  8. 12.100
+  libswscale      6.  1.100 /  6.  1.100
+  libswresample   4.  0.100 /  4.  0.100
+  libpostproc    56.  0.100 / 56.  0.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\willi\OneDrive\Desktop\Processing\Projects\VoronoiDiagrams\Exports/Infected.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf59.6.100
+    comment         : Made with Video Export for Processing - https://git.io/vAXLk
+  Duration: 00:01:00.00, start: 0.000000, bitrate: 2952 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1000x1000, 2949 kb/s, 20 fps, 20 tbr, 10240 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+Input #1, mp3, from 'C:\Users\willi\OneDrive\Desktop\Processing\Projects\VoronoiDiagrams\data\PulseCut.mp3':
+  Metadata:
+    major_brand     : M4A 
+    minor_version   : 512
+    compatible_brands: isomiso2
+    encoder         : Lavf58.20.100
+  Duration: 00:02:00.08, start: 0.025057, bitrate: 128 kb/s
+  Stream #1:0: Audio: mp3, 44100 Hz, stereo, fltp, 128 kb/s
+    Metadata:
+      encoder         : Lavc58.34
+Stream mapping:
+  Stream #1:0 (mp3float) -> apad
+  apad -> Stream #0:0 (aac)
+  Stream #0:0 -> #0:1 (copy)
+Press [q] to stop, [?] for help
+Output #0, mp4, to 'C:\Users\willi\OneDrive\Desktop\Processing\Projects\VoronoiDiagrams\temp-with-audio.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    comment         : Made with Video Export for Processing - https://git.io/vAXLk
+    encoder         : Lavf59.6.100
+  Stream #0:0: Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s
+    Metadata:
+      encoder         : Lavc59.12.100 aac
+  Stream #0:1(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1000x1000, q=2-31, 2949 kb/s, 20 fps, 20 tbr, 10240 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+frame=    0 fps=0.0 q=-1.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    frame=  232 fps=0.0 q=-1.0 size=    2304kB time=00:00:11.45 bitrate=1648.4kbits/s speed=22.9x    frame=  550 fps=550 q=-1.0 size=    8704kB time=00:00:27.37 bitrate=2604.6kbits/s speed=27.4x    frame=  886 fps=590 q=-1.0 size=   15872kB time=00:00:44.15 bitrate=2945.0kbits/s speed=29.4x    frame= 1064 fps=532 q=-1.0 size=   19712kB time=00:00:53.05 bitrate=3043.9kbits/s speed=26.5x    frame= 1200 fps=525 q=-1.0 Lsize=   22604kB time=00:00:59.88 bitrate=3092.1kbits/s speed=26.2x    
+video:21606kB audio:958kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.174050%
+[aac @ 0000025bb85938c0] Qavg: 571.021
