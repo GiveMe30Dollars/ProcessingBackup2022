@@ -1,3 +1,5 @@
+import java.util.*;
+
 //GEOMETRY CLASS
 
 class Geometry{
@@ -12,6 +14,9 @@ class Geometry{
   }
   <T extends Geometry> boolean intersects(T range){
     return true;
+  }
+  <T extends Transform> Transform clamp(T p){
+    return new Transform(x,y);
   }
 }
 
@@ -53,6 +58,12 @@ class Rectangle extends Geometry{
     float closestX = max(x, min(circle.x, x+w));
     float closestY = max(y, min(circle.y, y+h));
     return (pow(closestX-circle.x,2) + pow(closestY-circle.y,2) <= pow(circle.r,2));
+  }
+  
+  <T extends Transform> Transform clamp(T p){
+    float closestX = max(x, min(p.x, x+w));
+    float closestY = max(y, min(p.y, y+h));
+    return new Transform(closestX, closestY);
   }
   
   
@@ -127,6 +138,11 @@ class Point extends Transform{
     fill(c);
     circle(x,y,r);
   }
+}
+
+float distSqr(Transform a, Transform b){
+  if (a==null || b==null) return Float.POSITIVE_INFINITY;
+  return pow(a.x-b.x,2)+pow(a.y-b.y,2);
 }
 
 
@@ -223,6 +239,42 @@ class Quadtree <T extends Transform> extends Rectangle{
     childTR.query(range, queryArray);
     childBL.query(range, queryArray);
     childBR.query(range, queryArray);
+  }
+  
+  
+  T closestPoint(Transform target){
+    if (!divided){    // IF NOT DIVIDED AKA LEAF NODE, DO NAIVE CHECK
+      T candidate = null;
+      Float distSqr = Float.POSITIVE_INFINITY;
+      for (T p : points){
+        float potential = distSqr(target, p);
+        if (potential < distSqr){
+          candidate = p;
+          distSqr = potential;
+        }
+      }
+      return candidate;
+    }
+    
+    // FOR DIVIDED NODES, ARRANGE CHILDREN IN ORDER BASED ON MINIMUM DISTANCE TO TARGET
+    TreeMap<Float, Quadtree> queue = new TreeMap<Float, Quadtree>();
+    queue.put(distSqr(target, childTL.clamp(target)), childTL);
+    queue.put(distSqr(target, childTR.clamp(target)), childTR);
+    queue.put(distSqr(target, childBL.clamp(target)), childBL);
+    queue.put(distSqr(target, childBR.clamp(target)), childBR);
+    
+    T candidate = null;
+    Float distSqr = Float.POSITIVE_INFINITY;
+    for (Map.Entry<Float, Quadtree> entry : queue.entrySet()){
+      if (entry.getKey() > distSqr) break;    // IF MINIMUM DISTANCE IS GREATER THAN FROM EXISTING CANDIDATE, PRUNE THIS AND LATER BRANCHES.
+      T nestedCandidate =  (T) entry.getValue().closestPoint(target);    // CHECK FOR CANDIDATE VALIDITY
+      float potential = distSqr(nestedCandidate, target);
+      if (potential < distSqr){
+        candidate = nestedCandidate;
+        distSqr = potential;
+      }
+    }
+    return candidate;
   }
   
   
