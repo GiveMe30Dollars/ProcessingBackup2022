@@ -1,7 +1,7 @@
 VoronoiSystem sys;
 ArrayList<Transform> obstacleNodes;
-int nodeAmount = 100;
-float nodeSpawnMargin = 50;
+int nodeAmount = 50;
+float nodeSpawnMargin = 40;
 
 float obstacleClipMargin = 50;
 float obstacleScale = 0.8;
@@ -24,7 +24,9 @@ ArrayList<Collider> generateVoronoiColliders(){
     Polygon p = sys.cells.get(i-1).clipped(obstacleClipMargin);
     p.scale(obstacleScale);
     p.chaikinCurve(chaikinCurvePercentage, chaikinCurveNumber);
-    output.add(new Collider(p));
+    Collider col = new Collider(p);
+    if (col.contains(width/2, height/2)) continue;
+    output.add(col);
   }
   return output;
 }

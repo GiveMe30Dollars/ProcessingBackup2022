@@ -35,6 +35,14 @@ class Collider extends Polygon{
     }
   }
   
+  boolean contains(float x, float y){
+    for (ColliderEdge e : edges){
+      PVector pointedToLine = new PVector((e.x1+e.x2)/2 - x, (e.y1+e.y2)/2 - y);
+      if (PVector.dot(pointedToLine, e.normal) <= 0 ) return false;
+    }
+    return true;
+  }
+  
 }
 
 

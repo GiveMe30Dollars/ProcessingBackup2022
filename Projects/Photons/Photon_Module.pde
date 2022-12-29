@@ -50,7 +50,7 @@ class Photon extends Transform{
       }
     }
     for (Map.Entry<Float, ColliderEdge> entry : collisionQueue.entrySet()){
-      if (entry.getKey() <= collisionThreshold) continue;
+      if (entry.getKey() < collisionThreshold) continue;
       return entry.getValue();
     }
     return null;
