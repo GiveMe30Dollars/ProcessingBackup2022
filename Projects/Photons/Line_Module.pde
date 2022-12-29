@@ -71,8 +71,8 @@ class Segment extends Line{
   }
   
   boolean validate(float x, float y){
-    if (!m.isInfinite()) return !(x < min(x1,x2) || x > max(x1,x2));
-    else return !(y < min(y1,y2) || y > max(y1,y2));
+    if (!m.isInfinite()) return !(x <= min(x1,x2) || x >= max(x1,x2));
+    else return !(y <= min(y1,y2) || y >= max(y1,y2));
   }
 }
 
