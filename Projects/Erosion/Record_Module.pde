@@ -1,32 +1,32 @@
-import com.hamoid.*;
-
+String path;
 int frameLimit;
-VideoExport export;
+boolean recording = false;
 
-void recordStart(int fL_, String name){
-  recordStart(fL_, name, 60);
+void recordStart(String path_){
+  recordStart(path,-1);
 }
 
-void recordStart(int fL_, String name, int fR_){
+void recordStart(String path_, int fL_){
+  path = path_;
   frameLimit = fL_;
-  export = new VideoExport(this, name);
-  export.setFrameRate(fR_);
-  export.setQuality(51,1);
-  export.startMovie();
+  recording = true;
+  frameCount = 0;
 }
 
 void recordUpdate(){
-  print("RECORDING:    "+frameCount + "     " + frameRate + "\n");
-  export.saveFrame();
+  if (!recording){
+    print("\nNOT RECORDING.");
+    return;
+  }
+  print("\nRECORDING:    "+frameCount + "     " + frameRate);
+  saveFrame(path + "/####.png");
   if(frameLimit <= 0) return;
   if (frameCount >= frameLimit){
-    export.endMovie();
-    noLoop();
+    recording = false;
   }
 }
 
 void recordEnd(){
   print("FORCE END.");
-  export.endMovie();
-  noLoop();
+  recording = false;
 }

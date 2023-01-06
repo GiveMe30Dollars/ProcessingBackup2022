@@ -56,7 +56,8 @@ class ColliderEdge extends Segment{
   }
   
   PVector collisionResponse(PVector remainingDIS){
-    if (parent.refractiveIndex <= 0) return reflect(remainingDIS);
+    if (parent.refractiveIndex < 0) return reflect(remainingDIS);
+    else if (parent.refractiveIndex == 0) return new PVector(0,0);
     else return refract(remainingDIS);
   }
   
@@ -67,7 +68,11 @@ class ColliderEdge extends Segment{
   }
   
   PVector refract(PVector remainingDIS){
-    // TODO
-    return null;
+    float dotProduct = PVector.dot(normal, remainingDIS);
+    PVector normalAlignedComponent = normal.copy().mult(dotProduct);
+    PVector tangentAlignedComponent = PVector.sub(remainingDIS, normalAlignedComponent);
+    if (dotProduct < 0) tangentAlignedComponent.mult(parent.refractiveIndex);
+    else tangentAlignedComponent.div(parent.refractiveIndex);
+    return normalAlignedComponent.add(tangentAlignedComponent);
   }
 }

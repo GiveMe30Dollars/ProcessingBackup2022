@@ -1,6 +1,6 @@
 import java.util.*;
 
-float collisionThreshold = 0.001;
+float collisionThreshold = 0.0001;
 
 class Photon extends Transform{
   
@@ -25,14 +25,19 @@ class Photon extends Transform{
       return;
     }
     PVector collisionPoint = intersects(edge, path);  // ELSE, MOVE TO COLLISION POINT
-    x = collisionPoint.x;
-    y = collisionPoint.y;
-    
     // AND CALCULATE REMAINING PENDING DISPLACEMENT
     PVector remainingDIS = new PVector(x+displacement.x - collisionPoint.x, y+displacement.y - collisionPoint.y);
     PVector alteredDIS = edge.collisionResponse(remainingDIS);
+    x = collisionPoint.x;
+    y = collisionPoint.y;
+    
+    
     
     velocity = alteredDIS.copy().normalize().mult(velocity.mag());
+    if (edge.parent.refractiveIndex > 0){
+      if (PVector.dot(remainingDIS, edge.normal) < 0) velocity.mult(edge.parent.refractiveIndex);
+      else velocity.div(edge.parent.refractiveIndex);
+    }
     
     // EXECUTE RECURSIVELY WITH PENDING DISPLACEMENT
     update(colliders, alteredDIS);
