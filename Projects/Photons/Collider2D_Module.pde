@@ -61,18 +61,39 @@ class ColliderEdge extends Segment{
     else return refract(remainingDIS);
   }
   
-  PVector reflect(PVector remainingDIS){
-    float magnitude = PVector.dot(normal, remainingDIS);
-    if (magnitude >= 0) return remainingDIS.copy();
-    return remainingDIS.copy().sub(normal.copy().mult(2*magnitude));
+  
+  PVector reflect(PVector vec){
+    return reflect(vec, normal);
+  }
+  PVector reflect(PVector vec, PVector n_){
+    float magnitude = PVector.dot(n_, vec);
+    if (magnitude >= 0) return vec.copy();
+    return vec.copy().sub(n_.copy().mult(2*magnitude));
   }
   
-  PVector refract(PVector remainingDIS){
-    float dotProduct = PVector.dot(normal, remainingDIS);
-    PVector normalAlignedComponent = normal.copy().mult(dotProduct);
-    PVector tangentAlignedComponent = PVector.sub(remainingDIS, normalAlignedComponent);
-    if (dotProduct < 0) tangentAlignedComponent.mult(parent.refractiveIndex);
-    else tangentAlignedComponent.div(parent.refractiveIndex);
-    return normalAlignedComponent.add(tangentAlignedComponent);
+  
+  PVector refract(PVector vec){
+    // n2/n1 = v1/v2 = sinTheta1/sinTheta2
+    float magnitude = vec.mag();
+    vec.normalize();
+    
+    float dot = PVector.dot(normal.copy().mult(-1), vec);
+    float refrac = dot < 0 ? 1/parent.refractiveIndex : parent.refractiveIndex;
+    //float theta1 = dot < 0 ? PI - PVector.angleBetween(vec, normal) : PVector.angleBetween(vec, normal);
+    
+    
+    //float sinTheta2 = sin(theta1) * refrac;
+    //if (sinTheta2 >= 1) return reflect(vec, normal.copy().mult(-1));
+    //float theta2 = asin(sinTheta2);
+    
+    PVector output = vec.copy();
+    output.mult(refrac);
+    /*
+    PVector deflectionVector = normal.copy();
+    float deflectionFactor = sqrt(1 - refrac*refrac*(1-dot*dot)) - refrac*dot;
+    deflectionVector.mult(deflectionFactor);
+    output.add(deflectionVector);
+    output.mult(magnitude);*/
+    return output;
   }
 }

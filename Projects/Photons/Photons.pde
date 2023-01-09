@@ -16,8 +16,8 @@ void init(){
   // INSTANTIATE COLLIDERS; SEE ObstacleGeneration_Method
   background(0);
   
-  obstacles = generateVoronoiColliders();
-  //obstacles = generateCircleCollider();
+  //obstacles = generateVoronoiColliders();
+  obstacles = generateCircleCollider();
   
   photons = new ArrayList<Photon>();
   for (int i = 0; i < 2000; i++){

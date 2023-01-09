@@ -46,7 +46,7 @@ ArrayList<Collider> generateCircleCollider(){
   }
   pol.chaikinCurve(chaikinCurvePercentage, chaikinCurveNumber);
   Collider col = new Collider(pol);
-  col.refractiveIndex = 3;
+  col.refractiveIndex = 1.5;
   ArrayList<Collider> output = new ArrayList<Collider>();
   //ArrayList<Collider> output = generateSupercollider();
   output.add(col);

@@ -16,7 +16,7 @@ class Photon extends Transform{
   }
   
   void update(ArrayList<Collider> colliders, PVector displacement){
-    if (displacement.mag() < collisionThreshold) return;    // TERMINATE IF DISPLACEMENT IS INFINESTIMALLY SMALL
+    if (displacement.mag() <= collisionThreshold) return;    // TERMINATE IF DISPLACEMENT IS INFINESTIMALLY SMALL
     
     Segment path = new Segment(x, y, x+displacement.x ,y+displacement.y);    // GENERATE LINE SEGMENT OF PATH,
     ColliderEdge edge = collisionCheck(colliders, path);    // CHECK FOR COLLISION AGAINST EVERY COLLIDEREDGE
@@ -28,16 +28,9 @@ class Photon extends Transform{
     // AND CALCULATE REMAINING PENDING DISPLACEMENT
     PVector remainingDIS = new PVector(x+displacement.x - collisionPoint.x, y+displacement.y - collisionPoint.y);
     PVector alteredDIS = edge.collisionResponse(remainingDIS);
+    velocity = edge.collisionResponse(velocity);
     x = collisionPoint.x;
     y = collisionPoint.y;
-    
-    
-    
-    velocity = alteredDIS.copy().normalize().mult(velocity.mag());
-    if (edge.parent.refractiveIndex > 0){
-      if (PVector.dot(remainingDIS, edge.normal) < 0) velocity.mult(edge.parent.refractiveIndex);
-      else velocity.div(edge.parent.refractiveIndex);
-    }
     
     // EXECUTE RECURSIVELY WITH PENDING DISPLACEMENT
     update(colliders, alteredDIS);
@@ -55,7 +48,7 @@ class Photon extends Transform{
       }
     }
     for (Map.Entry<Float, ColliderEdge> entry : collisionQueue.entrySet()){
-      if (entry.getKey() < collisionThreshold) continue;
+      if (entry.getKey() <= collisionThreshold) continue;
       return entry.getValue();
     }
     return null;
